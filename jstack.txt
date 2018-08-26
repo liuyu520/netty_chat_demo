@@ -1,0 +1,509 @@
+2018-08-26 10:30:05
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.77-b03 mixed mode):
+
+"Attach Listener" #66 daemon prio=9 os_prio=31 tid=0x00007fe5c418c000 nid=0xb33 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"nioEventLoopGroup-3-1" #58 prio=10 os_prio=31 tid=0x00007fe5c795a800 nid=0x10e23 waiting for monitor entry [0x0000700004b58000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.apple.laf.AquaFileSystemModel.getRowCount(AquaFileSystemModel.java:194)
+	- waiting to lock <0x000000079a7da8c0> (a java.lang.Object)
+	at javax.swing.JTable.getRowCount(JTable.java:2662)
+	at javax.swing.plaf.basic.BasicTableUI.createTableSize(BasicTableUI.java:1692)
+	at javax.swing.plaf.basic.BasicTableUI.getPreferredSize(BasicTableUI.java:1733)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1662)
+	at javax.swing.ScrollPaneLayout.preferredLayoutSize(ScrollPaneLayout.java:495)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at java.awt.BorderLayout.preferredLayoutSize(BorderLayout.java:719)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at java.awt.BorderLayout.preferredLayoutSize(BorderLayout.java:719)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at javax.swing.BoxLayout.checkRequests(BoxLayout.java:484)
+	at javax.swing.BoxLayout.layoutContainer(BoxLayout.java:425)
+	- locked <0x0000000799197c60> (a javax.swing.BoxLayout)
+	at java.awt.Container.layout(Container.java:1510)
+	at java.awt.Container.doLayout(Container.java:1499)
+	at java.awt.Container.validateTree(Container.java:1695)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validate(Container.java:1630)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.validateUnconditionally(Container.java:1667)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Dialog.conditionalShow(Dialog.java:908)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Dialog.show(Dialog.java:1045)
+	at javax.swing.JFileChooser.showDialog(JFileChooser.java:758)
+	at javax.swing.JFileChooser.showSaveDialog(JFileChooser.java:681)
+	at com.swing.dialog.DialogUtil.showSaveDialog(DialogUtil.java:80)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.saveToFile(BytesMessageServerHandler.java:48)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.dealTransferTlv(BytesMessageServerHandler.java:105)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.channelRead0(BytesMessageServerHandler.java:78)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.channelRead0(BytesMessageServerHandler.java:22)
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:65532)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:310)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:284)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1414)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:945)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:141)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:645)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:580)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:497)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:459)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:886)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:745)
+
+"TimerQueue" #57 daemon prio=5 os_prio=31 tid=0x00007fe5c56c4000 nid=0x10a1b waiting on condition [0x0000700004d60000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000007a2ab9988> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.DelayQueue.take(DelayQueue.java:223)
+	at javax.swing.TimerQueue.run(TimerQueue.java:171)
+	at java.lang.Thread.run(Thread.java:745)
+
+"nioEventLoopGroup-2-1" #56 prio=10 os_prio=31 tid=0x00007fe5c2d89800 nid=0xf123 runnable [0x0000700004c5d000]
+   java.lang.Thread.State: RUNNABLE
+	at sun.nio.ch.KQueueArrayWrapper.kevent0(Native Method)
+	at sun.nio.ch.KQueueArrayWrapper.poll(KQueueArrayWrapper.java:198)
+	at sun.nio.ch.KQueueSelectorImpl.doSelect(KQueueSelectorImpl.java:117)
+	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+	- locked <0x00000007a2b7bce0> (a io.netty.channel.nio.SelectedSelectionKeySet)
+	- locked <0x00000007a2b7bcf8> (a java.util.Collections$UnmodifiableSet)
+	- locked <0x00000007a2b7bc90> (a sun.nio.ch.KQueueSelectorImpl)
+	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)
+	at io.netty.channel.nio.SelectedSelectionKeySetSelector.select(SelectedSelectionKeySetSelector.java:62)
+	at io.netty.channel.nio.NioEventLoop.select(NioEventLoop.java:753)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:409)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:886)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:745)
+
+"ObjectCleanerThread" #55 daemon prio=1 os_prio=31 tid=0x00007fe5c3ca5800 nid=0xe707 in Object.wait() [0x00007000048d1000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	- locked <0x00000007a2b0c6f0> (a java.lang.ref.ReferenceQueue$Lock)
+	at io.netty.util.internal.ObjectCleaner$1.run(ObjectCleaner.java:54)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:745)
+
+"DestroyJavaVM" #53 prio=5 os_prio=31 tid=0x00007fe5c4002800 nid=0x2703 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Thread-11" #52 prio=5 os_prio=31 tid=0x00007fe5c7ca7000 nid=0x11903 in Object.wait() [0x00007000049d4000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000007a2b0cc50> (a io.netty.channel.AbstractChannel$CloseFuture)
+	at java.lang.Object.wait(Object.java:502)
+	at io.netty.util.concurrent.DefaultPromise.await(DefaultPromise.java:232)
+	- locked <0x00000007a2b0cc50> (a io.netty.channel.AbstractChannel$CloseFuture)
+	at io.netty.channel.DefaultChannelPromise.await(DefaultChannelPromise.java:131)
+	at io.netty.channel.DefaultChannelPromise.await(DefaultChannelPromise.java:30)
+	at io.netty.util.concurrent.DefaultPromise.sync(DefaultPromise.java:338)
+	at io.netty.channel.DefaultChannelPromise.sync(DefaultChannelPromise.java:119)
+	at io.netty.channel.DefaultChannelPromise.sync(DefaultChannelPromise.java:30)
+	at com.girltest.netty.swing.ServerApp.startServerBootstrap(ServerApp.java:87)
+	at com.girltest.netty.swing.ServerApp$1.run(ServerApp.java:45)
+	at java.lang.Thread.run(Thread.java:745)
+
+"AWT-EventQueue-0" #49 prio=6 os_prio=31 tid=0x00007fe5c2fdf000 nid=0x12e53 waiting for monitor entry [0x00007000045c7000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at java.awt.Component.invalidate(Component.java:2931)
+	- waiting to lock <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.invalidate(Container.java:1587)
+	at javax.swing.JComponent.revalidate(JComponent.java:4848)
+	at javax.swing.JTable.tableRowsInserted(JTable.java:4482)
+	at javax.swing.JTable.tableChanged(JTable.java:4407)
+	at javax.swing.table.AbstractTableModel.fireTableChanged(AbstractTableModel.java:296)
+	at javax.swing.table.AbstractTableModel.fireTableRowsInserted(AbstractTableModel.java:231)
+	at com.apple.laf.AquaFileSystemModel$DoChangeContents.run(AquaFileSystemModel.java:458)
+	- locked <0x000000079a7da8c0> (a java.lang.Object)
+	- locked <0x000000079b0c7340> (a java.lang.Object)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+"AWT-Shutdown" #50 prio=5 os_prio=31 tid=0x00007fe5c2d80000 nid=0x8bbb in Object.wait() [0x000070000433c000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Object.wait(Object.java:502)
+	at sun.awt.AWTAutoShutdown.run(AWTAutoShutdown.java:295)
+	- locked <0x00000007409f1d18> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:745)
+
+"Timer-0" #48 prio=5 os_prio=31 tid=0x00007fe5c3624000 nid=0xe403 in Object.wait() [0x00007000047ce000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x0000000740a160e0> (a java.util.TaskQueue)
+	at java.lang.Object.wait(Object.java:502)
+	at java.util.TimerThread.mainLoop(Timer.java:526)
+	- locked <0x0000000740a160e0> (a java.util.TaskQueue)
+	at java.util.TimerThread.run(Timer.java:505)
+
+"Java2D Disposer" #47 daemon prio=10 os_prio=31 tid=0x00007fe5c4fd1800 nid=0x11e07 in Object.wait() [0x00007000046cb000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	- locked <0x0000000740aa8dd0> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+	at sun.java2d.Disposer.run(Disposer.java:148)
+	at java.lang.Thread.run(Thread.java:745)
+
+"Java2D Queue Flusher" #46 daemon prio=10 os_prio=31 tid=0x00007fe5c55e4000 nid=0x5a0f in Object.wait() [0x0000700003c27000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	at sun.java2d.opengl.OGLRenderQueue$QueueFlusher.run(OGLRenderQueue.java:203)
+	- locked <0x00000007409f21d8> (a sun.java2d.opengl.OGLRenderQueue$QueueFlusher)
+
+"AppKit Thread" #42 daemon prio=5 os_prio=31 tid=0x00007fe5c556f000 nid=0x307 runnable [0x00007ffee9573000]
+   java.lang.Thread.State: RUNNABLE
+	at sun.lwawt.macosx.LWCToolkit.doAWTRunLoopImpl(Native Method)
+	at sun.lwawt.macosx.LWCToolkit.doAWTRunLoop(LWCToolkit.java:825)
+	at sun.lwawt.macosx.LWCToolkit.invokeAndWait(LWCToolkit.java:642)
+	at sun.lwawt.macosx.CInputMethod.characterIndexForPoint(CInputMethod.java:757)
+	- locked <0x00000007a2b04d28> (a sun.lwawt.macosx.CInputMethod)
+
+"rebel/pool-1-thread-1" #41 daemon prio=5 os_prio=31 tid=0x00007fe5c54d5800 nid=0x6003 waiting on condition [0x0000700004239000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x0000000740a165f0> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:442)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1067)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1127)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+"Monitor Ctrl-Break" #40 daemon prio=5 os_prio=31 tid=0x00007fe5c2ff4000 nid=0x9e03 runnable [0x0000700004136000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream._jr$jni$socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead0(SocketInputStream.java)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:170)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	- locked <0x0000000740be2e50> (a java.io.InputStreamReader)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	- locked <0x0000000740be2e50> (a java.io.InputStreamReader)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.intellij.rt.execution.application.AppMainV2$1.run(AppMainV2.java:64)
+
+"rebel-change-detector-thread" #39 daemon prio=5 os_prio=31 tid=0x00007fe5c53ab800 nid=0xa003 waiting on condition [0x0000700004033000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x0000000740a19ba0> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2163)
+	at com.zeroturnaround.reload.a.l(SourceFile:284)
+	at com.zeroturnaround.reload.a.k(SourceFile:59)
+	at com.zeroturnaround.reload.b.run(SourceFile:121)
+
+"rebel-debugger-thread" #36 daemon prio=5 os_prio=31 tid=0x00007fe5c59c8000 nid=0x5d03 waiting on condition [0x0000700003f30000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.zeroturnaround.javarebel.bd.run(SourceFile:41)
+
+"rebel-debugger-attach-notifier" #35 daemon prio=5 os_prio=31 tid=0x00007fe5c582a800 nid=0x5c03 waiting on condition [0x0000700003e2d000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x0000000740a1a110> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingDeque.takeFirst(LinkedBlockingDeque.java:492)
+	at java.util.concurrent.LinkedBlockingDeque.take(LinkedBlockingDeque.java:680)
+	at com.zeroturnaround.javarebel.gj.run(SourceFile:24)
+
+"rebel-heartbeat-thread" #30 daemon prio=10 os_prio=31 tid=0x00007fe5c5828800 nid=0xa203 waiting on condition [0x0000700003d2a000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.zeroturnaround.javarebel.yd.run(SourceFile:31)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-leaseManager-1" #33 daemon prio=5 os_prio=31 tid=0x00007fe5c58a5000 nid=0x3c07 waiting on condition [0x00007000036ed000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000007407046e8> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1067)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1127)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-IDENotificationsImpl-PostCycle" #27 daemon prio=5 os_prio=31 tid=0x00007fe5c5123000 nid=0x3e07 waiting on condition [0x00007000035ea000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x0000000740704b68> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:442)
+	at com.zeroturnaround.javarebel.py.c(SourceFile:110)
+	at com.zeroturnaround.javarebel.py.a(SourceFile:26)
+	at com.zeroturnaround.javarebel.qb.run(SourceFile:137)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-weak-reaper" #32 daemon prio=5 os_prio=31 tid=0x00007fe5c37d0000 nid=0x4007 in Object.wait() [0x00007000034e7000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x0000000740736658> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	- locked <0x0000000740736658> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+	at org.zeroturnaround.javarebel.integration.util.WeakUtil$WeakListenerReference$1.run(SourceFile:482)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-messaging-executor-28" #28 daemon prio=5 os_prio=31 tid=0x00007fe5c2cab000 nid=0x4107 waiting on condition [0x00007000033e4000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000007406f3728> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.DelayQueue.take(DelayQueue.java:211)
+	at org.zeroturnaround.javarebel.reporting.MetricsExecutor.run(SourceFile:50)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-fsnotify-OutputReader" #25 daemon prio=9 os_prio=31 tid=0x00007fe5c3386000 nid=0x5707 waiting on condition [0x0000700003b24000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at org.zeroturnaround.jrebel.intellij.OutputReader.run(OutputReader.java:69)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-fsnotify-OutputReader" #24 daemon prio=9 os_prio=31 tid=0x00007fe5c3385800 nid=0xa407 waiting on condition [0x0000700003a21000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at org.zeroturnaround.jrebel.intellij.OutputReader.run(OutputReader.java:69)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-fsnotify-ShutdownOnTermination" #26 daemon prio=5 os_prio=31 tid=0x00007fe5c337a000 nid=0x5607 in Object.wait() [0x000070000391e000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x0000000740736bf8> (a java.lang.UNIXProcess)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.UNIXProcess.waitFor(UNIXProcess.java:396)
+	- locked <0x0000000740736bf8> (a java.lang.UNIXProcess)
+	at org.zeroturnaround.jrebel.intellij.FileWatcher$1.run(FileWatcher.java:220)
+	at java.lang.Thread.run(Thread.java:745)
+
+"process reaper" #23 daemon prio=10 os_prio=31 tid=0x00007fe5c3384800 nid=0x5807 runnable [0x000070000381b000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.UNIXProcess.waitForProcessExit(Native Method)
+	at java.lang.UNIXProcess.lambda$initStreams$3(UNIXProcess.java:290)
+	at java.lang.UNIXProcess$$Lambda$7/1457809313.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+"rebel-CacheKeepAlive" #17 daemon prio=5 os_prio=31 tid=0x00007fe5c3198000 nid=0xa903 waiting on condition [0x00007000037f0000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(Native Method)
+	at com.zeroturnaround.javarebel.ce.run(SourceFile:215)
+
+"rebel-logger" #11 daemon prio=5 os_prio=31 tid=0x00007fe5c3109800 nid=0x4303 waiting on condition [0x00007000032e1000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x00000007408fb6e0> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+	at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:442)
+	at com.zeroturnaround.javarebel.ou.a(SourceFile:28)
+	at com.zeroturnaround.javarebel.ov.run(SourceFile:47)
+
+"Service Thread" #10 daemon prio=9 os_prio=31 tid=0x00007fe5c30b9000 nid=0x4603 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C1 CompilerThread2" #9 daemon prio=9 os_prio=31 tid=0x00007fe5c415e800 nid=0x3803 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread1" #8 daemon prio=9 os_prio=31 tid=0x00007fe5c30ae000 nid=0x4703 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=31 tid=0x00007fe5c30ad800 nid=0x4903 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 tid=0x00007fe5c386f000 nid=0x3607 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Finalizer" #3 daemon prio=8 os_prio=31 tid=0x00007fe5c2814000 nid=0x5203 in Object.wait() [0x0000700002bcc000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000007408c4890> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	- locked <0x00000007408c4890> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:209)
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 tid=0x00007fe5c4001000 nid=0x5303 in Object.wait() [0x0000700002ac9000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000007408c48d0> (a java.lang.ref.Reference$Lock)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+	- locked <0x00000007408c48d0> (a java.lang.ref.Reference$Lock)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+"VM Thread" os_prio=31 tid=0x00007fe5c3004800 nid=0x2e03 runnable 
+
+"GC task thread#0 (ParallelGC)" os_prio=31 tid=0x00007fe5c3815800 nid=0x1e07 runnable 
+
+"GC task thread#1 (ParallelGC)" os_prio=31 tid=0x00007fe5c3816000 nid=0x1f03 runnable 
+
+"GC task thread#2 (ParallelGC)" os_prio=31 tid=0x00007fe5c382c800 nid=0x2b03 runnable 
+
+"GC task thread#3 (ParallelGC)" os_prio=31 tid=0x00007fe5c382d000 nid=0x2c03 runnable 
+
+"VM Periodic Task Thread" os_prio=31 tid=0x00007fe5c396b000 nid=0x3a03 waiting on condition 
+
+JNI global references: 728
+
+
+Found one Java-level deadlock:
+=============================
+"nioEventLoopGroup-3-1":
+  waiting to lock monitor 0x00007fe5c3c5af28 (object 0x000000079a7da8c0, a java.lang.Object),
+  which is held by "AWT-EventQueue-0"
+"AWT-EventQueue-0":
+  waiting to lock monitor 0x00007fe5c3a2ab98 (object 0x0000000740a24f58, a java.awt.Component$AWTTreeLock),
+  which is held by "nioEventLoopGroup-3-1"
+
+Java stack information for the threads listed above:
+===================================================
+"nioEventLoopGroup-3-1":
+	at com.apple.laf.AquaFileSystemModel.getRowCount(AquaFileSystemModel.java:194)
+	- waiting to lock <0x000000079a7da8c0> (a java.lang.Object)
+	at javax.swing.JTable.getRowCount(JTable.java:2662)
+	at javax.swing.plaf.basic.BasicTableUI.createTableSize(BasicTableUI.java:1692)
+	at javax.swing.plaf.basic.BasicTableUI.getPreferredSize(BasicTableUI.java:1733)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1662)
+	at javax.swing.ScrollPaneLayout.preferredLayoutSize(ScrollPaneLayout.java:495)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at java.awt.BorderLayout.preferredLayoutSize(BorderLayout.java:719)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at java.awt.BorderLayout.preferredLayoutSize(BorderLayout.java:719)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.preferredSize(Container.java:1796)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.getPreferredSize(Container.java:1780)
+	at javax.swing.JComponent.getPreferredSize(JComponent.java:1664)
+	at javax.swing.BoxLayout.checkRequests(BoxLayout.java:484)
+	at javax.swing.BoxLayout.layoutContainer(BoxLayout.java:425)
+	- locked <0x0000000799197c60> (a javax.swing.BoxLayout)
+	at java.awt.Container.layout(Container.java:1510)
+	at java.awt.Container.doLayout(Container.java:1499)
+	at java.awt.Container.validateTree(Container.java:1695)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validateTree(Container.java:1704)
+	at java.awt.Container.validate(Container.java:1630)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.validateUnconditionally(Container.java:1667)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Dialog.conditionalShow(Dialog.java:908)
+	- locked <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Dialog.show(Dialog.java:1045)
+	at javax.swing.JFileChooser.showDialog(JFileChooser.java:758)
+	at javax.swing.JFileChooser.showSaveDialog(JFileChooser.java:681)
+	at com.swing.dialog.DialogUtil.showSaveDialog(DialogUtil.java:80)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.saveToFile(BytesMessageServerHandler.java:48)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.dealTransferTlv(BytesMessageServerHandler.java:105)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.channelRead0(BytesMessageServerHandler.java:78)
+	at com.girltest.netty.handle.bytes.BytesMessageServerHandler.channelRead0(BytesMessageServerHandler.java:22)
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:65532)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:310)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:284)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1414)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:945)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:141)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:645)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:580)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:497)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:459)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:886)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:745)
+"AWT-EventQueue-0":
+	at java.awt.Component.invalidate(Component.java:2931)
+	- waiting to lock <0x0000000740a24f58> (a java.awt.Component$AWTTreeLock)
+	at java.awt.Container.invalidate(Container.java:1587)
+	at javax.swing.JComponent.revalidate(JComponent.java:4848)
+	at javax.swing.JTable.tableRowsInserted(JTable.java:4482)
+	at javax.swing.JTable.tableChanged(JTable.java:4407)
+	at javax.swing.table.AbstractTableModel.fireTableChanged(AbstractTableModel.java:296)
+	at javax.swing.table.AbstractTableModel.fireTableRowsInserted(AbstractTableModel.java:231)
+	at com.apple.laf.AquaFileSystemModel$DoChangeContents.run(AquaFileSystemModel.java:458)
+	- locked <0x000000079a7da8c0> (a java.lang.Object)
+	- locked <0x000000079b0c7340> (a java.lang.Object)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+Found 1 deadlock.
+
