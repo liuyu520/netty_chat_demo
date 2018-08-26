@@ -84,8 +84,11 @@ public abstract class GenericChatFrame extends GenericFrame {
     };
 
     private void showReceivedMsg(String msg) {
-        ComponentUtil.appendResult(chatHistoryTa, msg, true);
-        chatHistoryTa.updateUI();
+        SwingUtilities.invokeLater(() -> {
+            ComponentUtil.appendResult(chatHistoryTa, msg, true);
+            chatHistoryTa.updateUI();
+        });
+
         //使窗口处于激活状态
         GenericChatFrame.this.toFront();
         GenericChatFrame.this.requestFocus();

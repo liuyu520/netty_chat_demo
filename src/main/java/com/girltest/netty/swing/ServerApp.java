@@ -1,5 +1,6 @@
 package com.girltest.netty.swing;
 
+import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.handle.CommonChannelnitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -39,12 +40,12 @@ public class ServerApp extends GenericChatFrame {
         //2. 绑定事件
 
         //3. 启动socket服务
-        new Thread(new Runnable() {
+        ThreadPoolUtil.execute(new Runnable() {
             @Override
             public void run() {
                 startServerBootstrap();
             }
-        }).start();
+        });
         //4.
     }
 

@@ -51,7 +51,7 @@ public class ClientApp extends GenericChatFrame {
                 connect();
                 connectButton.setEnabled(false);
                 //connectButton 20秒之后,恢复可用状态
-                new Thread(new Runnable() {
+                SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -61,7 +61,7 @@ public class ClientApp extends GenericChatFrame {
                         }
                         connectButton.setEnabled(true);
                     }
-                }).start();
+                });
             }
         });
     }
