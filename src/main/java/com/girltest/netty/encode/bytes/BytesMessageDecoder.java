@@ -2,6 +2,8 @@ package com.girltest.netty.encode.bytes;
 
 import com.common.util.SystemHWUtil;
 import com.girltest.netty.dto.message.BytesMessageItem;
+import com.girltest.netty.encode.filter.IAfterDecodeFilter;
+import com.girltest.netty.encode.filter.impl.AfterDecodeFilterImpl;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -13,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BytesMessageDecoder extends LengthFieldBasedFrameDecoder {
     private static final Logger log = LoggerFactory.getLogger(BytesMessageDecoder.class);
-
+    private IAfterDecodeFilter afterDecodeFilter = new AfterDecodeFilterImpl();
     /***
      * lengthFieldLength 只能为1,2,4,8<br />
      * unsupported lengthFieldLength: 6 (expected: 1, 2, 3, 4, or 8)
@@ -50,6 +52,9 @@ public class BytesMessageDecoder extends LengthFieldBasedFrameDecoder {
         }
 
         in.readBytes(content);
+        if (afterDecodeFilter != null) {
+            content = afterDecodeFilter.afterDecode(content);
+        }
         BytesMessageItem messageItem = new BytesMessageItem();
         messageItem.setType(type);
         messageItem.setBinaryDataNoLength(content);

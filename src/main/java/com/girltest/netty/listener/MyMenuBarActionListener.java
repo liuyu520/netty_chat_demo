@@ -13,6 +13,7 @@ import io.netty.channel.ChannelFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,6 +107,11 @@ public class MyMenuBarActionListener implements ActionListener {
     }
 
     private void disconnectAndExit() {
+        int result = JOptionPane.showConfirmDialog(null, "Are you sure to 断开并关闭 ?", "确认",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result != JOptionPane.OK_OPTION) {
+            return;
+        }
         ChannelSendUtil.writeAndFlush(chatFrame.getChannel(), BytesMessageItem.getInstance("断开").setType(BytesMessageItem.TYPE_EXIT_SERVER));
         closeChannel(chatFrame);
         chatFrame.setChannel(null);
