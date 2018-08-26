@@ -13,6 +13,7 @@
 ## 开发工具
 IntelliJ IDEA
 本项目图形界面使用IntelliJ IDEA 开发,
+
 com/girltest/netty/swing/GenericChatFrame.form 依赖 IntelliJ IDEA
 
 ## 快捷键
@@ -25,4 +26,5 @@ com/girltest/netty/swing/GenericChatFrame.form 依赖 IntelliJ IDEA
 我的GitHub地址:[https://github.com/liuyu520](https://github.com/liuyu520)
 
 我的技术博客:[http://hw1287789687.iteye.com/](http://hw1287789687.iteye.com/)
+
 [http://blog.csdn.net/hw1287789687](http://blog.csdn.net/hw1287789687)
