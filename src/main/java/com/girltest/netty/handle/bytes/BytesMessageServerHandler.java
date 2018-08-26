@@ -1,7 +1,6 @@
 package com.girltest.netty.handle.bytes;
 
 import com.common.bean.DialogBean;
-import com.common.thread.ThreadPoolUtil;
 import com.common.util.SystemHWUtil;
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.enum2.EMessageType;
@@ -48,6 +47,7 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
         String filePath = "/tmp/uploaded/a.jpg";
         DialogBean dialogBean = DialogUtil.showSaveDialog(null, null, new File(filePath), "jpg");
         if (!dialogBean.isSuccess()) {
+            ToastMessage.toast("取消操作", 2000);
             return;
         }
         try {
@@ -80,7 +80,8 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
             case BytesMessageItem.TYPE_TRANSFER_TLV:
                 //如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
                 //使用线程,解决死锁问题
-                ThreadPoolUtil.execute(() -> {
+//                ThreadPoolUtil.execute();
+                SwingUtilities.invokeLater(() -> {
                     dealTransferTlv(msg);
                     msg.setBinaryDataNoLength(null);// 便于 gc
                 });

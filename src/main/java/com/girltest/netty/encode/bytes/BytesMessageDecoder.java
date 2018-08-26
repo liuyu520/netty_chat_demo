@@ -65,6 +65,7 @@ public class BytesMessageDecoder extends LengthFieldBasedFrameDecoder {
             }
         }
         in.release();
+//        in2.release();
         return messageItem;
     }
 }

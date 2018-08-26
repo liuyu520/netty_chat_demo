@@ -9,7 +9,7 @@
              xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_1.xsd">
 
     <classpath>
-        <dir name="/Users/whuanghkl/code/mygit/netty_chat_demo/target/classes">
+        <dir name="/Users/whuanghkl/code/mygit/netty/netty_chat_demo_github/target/classes">
         </dir>
     </classpath>
 
