@@ -3,14 +3,11 @@ package com.girltest.netty.consoleapp;
 import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.enum2.EMessageType;
-import com.girltest.netty.handle.console.ConsoleChannelnitializer;
 import com.girltest.netty.handle.console.server.IChannelListener;
 import com.girltest.netty.swing.callback.Callback;
 import com.girltest.netty.util.ChannelSendUtil;
-import com.girltest.netty.util.ServerConfigUtil;
 import com.string.widget.util.ValueWidget;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,10 +96,10 @@ public class ServerConsole {
     private void waitingUserInput() {
         ThreadPoolUtil.execute(() -> {
             BufferedReader reader = null;
+            reader =
+                    new BufferedReader(new InputStreamReader(System.in));
             try {
                 while (true) {
-                    reader =
-                            new BufferedReader(new InputStreamReader(System.in));
                     // Reading data using readLine
                     String input = null;
                     try {
