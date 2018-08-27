@@ -1,21 +1,25 @@
 package com.girltest.netty.handle.console;
 
-import com.girltest.netty.dto.message.ChannelHandleDto;
+import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.encode.bytes.BytesMessageDecoder;
 import com.girltest.netty.encode.bytes.BytesMessageEncoder;
 import com.girltest.netty.handle.bytes.ConsoleServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CommonChannelnitializer extends ChannelInitializer<SocketChannel> {
-    private static final Logger log = LoggerFactory.getLogger(com.girltest.netty.handle.console.CommonChannelnitializer.class);
-    @Getter
-    @Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ConsoleChannelnitializer extends ChannelInitializer<SocketChannel> {
+    private static final Logger log = LoggerFactory.getLogger(ConsoleChannelnitializer.class);
+    //    @Getter
+//    @Setter
     private ChannelHandleDto channelHandleDto;
 
     @Override

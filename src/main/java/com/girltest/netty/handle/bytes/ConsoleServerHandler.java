@@ -1,8 +1,9 @@
 package com.girltest.netty.handle.bytes;
 
+import com.common.thread.ThreadPoolUtil;
 import com.common.util.SystemHWUtil;
+import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
-import com.girltest.netty.dto.message.ChannelHandleDto;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.swing.callback.Callback;
 import com.io.hw.file.util.FileUtils;
@@ -42,7 +43,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      */
     private static void saveToFile(BytesMessageItem msg) {
         byte[] bytesData = msg.getBinaryDataNoLength();
-        String filePath = "/tmp/uploaded/a.jpg";
+        String filePath = "/tmp/uploaded/a321.jpg";
 
         try {
             FileUtils.writeBytesToFile(bytesData, filePath);
@@ -74,8 +75,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
             case BytesMessageItem.TYPE_TRANSFER_TLV:
                 //如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
                 //使用线程,解决死锁问题
-//                ThreadPoolUtil.execute();
-                SwingUtilities.invokeLater(() -> {
+                ThreadPoolUtil.execute(() -> {
                     dealTransferTlv(msg);
                     msg.setBinaryDataNoLength(null);// 便于 gc
                 });

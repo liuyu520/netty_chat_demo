@@ -1,4 +1,4 @@
-package com.girltest.netty.dto.message;
+package com.girltest.netty.dto;
 
 import com.girltest.netty.swing.callback.Callback;
 import lombok.Data;
