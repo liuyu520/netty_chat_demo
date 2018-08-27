@@ -6,6 +6,11 @@ import com.girltest.netty.encode.filter.IAfterDecodeFilter;
 public class AfterDecodeFilterImpl implements IAfterDecodeFilter {
     @Override
     public byte[] afterDecode(byte[] bytes) {
-        return SystemHWUtil.mergeArray(bytes, new byte[]{97, 98});
+        try {
+            bytes = SystemHWUtil.decryptDES(bytes, "111ac111".getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bytes;
     }
 }
