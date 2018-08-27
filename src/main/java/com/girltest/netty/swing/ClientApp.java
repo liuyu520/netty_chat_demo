@@ -112,7 +112,7 @@ public class ClientApp extends GenericChatFrame {
                     public void operationComplete(ChannelFuture future) throws Exception {//连接成功
 //                        setChannel(future.channel());
                         ChannelSendUtil.writeAndFlush(getChannel(), "这是客户端");
-                        ToastMessage.toast("连接成功", 1000);
+//                        ToastMessage.toast("连接成功", 1000);
                         System.out.println("客户端连接成功 :");
                         sendButton.setEnabled(true);
                         getInputTextArea().setEnabled(true);
