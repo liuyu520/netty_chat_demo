@@ -1,11 +1,12 @@
 package com.girltest.netty.handle.bytes;
 
-import com.common.thread.ThreadPoolUtil;
 import com.common.util.SystemHWUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
+import com.girltest.netty.dto.upload.UploadedFileSavePathDto;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.swing.callback.Callback;
+import com.girltest.netty.util.PrintUtil;
 import com.io.hw.file.util.FileUtils;
 import com.string.widget.util.ValueWidget;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +16,7 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 
 public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessageItem> {
@@ -41,12 +42,27 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      * 如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
      * @param msg
      */
-    private static void saveToFile(BytesMessageItem msg) {
+    private static void saveToFile(BytesMessageItem msg, UploadedFileSavePathDto uploadedFileSavePathDto) {
         byte[] bytesData = msg.getBinaryDataNoLength();
-        String filePath = "/tmp/uploaded/a321.jpg";
+        System.out.println("请输入保存路径 :");
+        //死循环,等待用户输入
+        while (ValueWidget.isNullOrEmpty(uploadedFileSavePathDto.getSavedPath())) {
+            //等待用户输入保存路径
+            //格式:path:/tmp/uploaded/cc32c.jpg
+        }
 
+        String filePath = uploadedFileSavePathDto.getSavedPath();
+        PrintUtil.print("获得用户输入路径:" + filePath);
+        uploadedFileSavePathDto.setSavedPath(null);
+
+        // 判断用户输入的文件是否已经存在
+        if (new File(filePath).exists()) {
+            filePath = FileUtils.modifyFilePath(filePath, "bak").getAbsolutePath();
+            PrintUtil.print("文件已经存在,所以系统自动更名为:" + filePath);
+        }
         try {
             FileUtils.writeBytesToFile(bytesData, filePath);
+            PrintUtil.print("保存成功,文件大小:" + FileUtils.formatFileSize2(bytesData.length));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,10 +91,9 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
             case BytesMessageItem.TYPE_TRANSFER_TLV:
                 //如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
                 //使用线程,解决死锁问题
-                ThreadPoolUtil.execute(() -> {
-                    dealTransferTlv(msg);
-                    msg.setBinaryDataNoLength(null);// 便于 gc
-                });
+                channelHandleDto.getUploadedFileSavePathDto().setSavedPath(null);
+                dealTransferTlv(msg);
+                msg.setBinaryDataNoLength(null);// 便于 gc
                 break;
         }
 
@@ -99,11 +114,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
         }
         switch (dataType) {
             case "pic":
-                int result = JOptionPane.showConfirmDialog(null, "Are you sure to save to local file ?", "确认",
-                        JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
-                    saveToFile(msg);
-                }
+                saveToFile(msg, this.channelHandleDto.getUploadedFileSavePathDto());
                 break;
         }
 

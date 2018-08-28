@@ -2,12 +2,14 @@ package com.girltest.netty.consoleapp;
 
 import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
+import com.girltest.netty.dto.upload.UploadedFileSavePathDto;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.enum2.EServerCmd;
 import com.girltest.netty.handle.console.ConsoleChannelnitializer;
 import com.girltest.netty.handle.console.server.IChannelListener;
 import com.girltest.netty.swing.callback.Callback;
 import com.girltest.netty.util.ChannelSendUtil;
+import com.girltest.netty.util.PrintUtil;
 import com.girltest.netty.util.ServerConfigUtil;
 import com.string.widget.util.ValueWidget;
 import io.netty.channel.Channel;
@@ -25,6 +27,7 @@ public class ServerConsole {
     static int port = 8088;
     private static final Logger log = LoggerFactory.getLogger(ServerConsole.class);
     private IChannelListener channelListener;
+    private static UploadedFileSavePathDto uploadedFileSavePathDto = UploadedFileSavePathDto.getInstance();
     public static void main(String[] args) {
 
         if (args != null && args.length > 0) {
@@ -48,7 +51,10 @@ public class ServerConsole {
                 if (EServerCmd.RE_CONNECT.getDisplayName().equals(msg)) {
                     reconnect();
                     return;
+                } else if (msg.startsWith(EServerCmd.GET_SAVED_FILE.getDisplayName())) {
+                    uploadedFileSavePathDto.setSavedPath(msg.replace(EServerCmd.GET_SAVED_FILE.getDisplayName() + ":", ""));
                 }
+
                 System.out.println("channel :" + channel);
                 ChannelSendUtil.writeAndFlush(channel, msg);
             }
@@ -69,6 +75,7 @@ public class ServerConsole {
     protected void startServerBootstrap(int port) {
         ChannelHandleDto channelHandleDto = new ChannelHandleDto();
         channelHandleDto.setTitle("服务器");
+        channelHandleDto.setUploadedFileSavePathDto(uploadedFileSavePathDto);
         channelHandleDto.setCallback(new Callback() {
             @Override
             public String callback(String msg, Object ctx, EMessageType type) {
@@ -83,7 +90,7 @@ public class ServerConsole {
                             channelListener.setCurrentChannel(channelHandlerContext.channel());
                             break;
                         case messageArrivied:
-                            print("收到的 :" + msg);
+                            PrintUtil.print("收到的 :" + msg);
                             break;
                         case channelUnregistered:
                             channelListener.setCurrentChannel(null);
@@ -102,8 +109,8 @@ public class ServerConsole {
         // 3. 启动socket server服务
         //是阻塞的,所以必须放在waitingUserInput() 后面
 //        ThreadPoolUtil.execute(() -> {
-            ChannelHandler channelHandler = new ConsoleChannelnitializer(channelHandleDto);
-            ServerConfigUtil.serverStartAccept(channelHandler, port);
+        ChannelHandler channelHandler = new ConsoleChannelnitializer(channelHandleDto);
+        ServerConfigUtil.serverStartAccept(channelHandler, port);
 //        });
     }
 
@@ -123,7 +130,7 @@ public class ServerConsole {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    print("input:" + input);
+                    PrintUtil.print("input:" + input);
                     if (!ValueWidget.isNullOrEmpty(input)) {
                         channelListener.send(input);
                     }
@@ -144,7 +151,5 @@ public class ServerConsole {
         });
     }
 
-    public static void print(String msg) {
-        System.out.println(msg);
-    }
+
 }

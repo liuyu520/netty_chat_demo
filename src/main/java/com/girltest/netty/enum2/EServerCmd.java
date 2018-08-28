@@ -9,7 +9,7 @@ import com.common.enu.IEnum;
 public enum EServerCmd implements IEnum {
 
     RE_CONNECT(1, "reconnect"),
-    ORDER_PAID(0, "订单支付完成"),;
+    GET_SAVED_FILE(2, "path")/* path:/tmp/uploaded/cc32c.jpg */,;
     private Integer code;
 
     private String displayName;

@@ -111,14 +111,15 @@ public class ClientApp extends GenericChatFrame {
         bootstrap.connect("localhost", port)//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
                     @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {//连接成功
+                    public void operationComplete(ChannelFuture future) {//连接成功
 //                        setChannel(future.channel());
-                        ChannelSendUtil.writeAndFlush(getChannel(), "这是客户端");
 //                        ToastMessage.toast("连接成功", 1000);
                         System.out.println("客户端连接成功 :");
                         sendButton.setEnabled(true);
                         getInputTextArea().setEnabled(true);
-                        if (!ValueWidget.isNullOrEmpty(getInputTextArea().getText2())) {
+                        if (ValueWidget.isNullOrEmpty(getInputTextArea().getText2())) {
+                            ChannelSendUtil.writeAndFlush(getChannel(), "这是客户端");
+                        } else {
                             sendMsg(false);
                         }
                     }
