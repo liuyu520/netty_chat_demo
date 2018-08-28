@@ -95,8 +95,7 @@ public class ServerConsole {
      */
     private void waitingUserInput() {
         ThreadPoolUtil.execute(() -> {
-            BufferedReader reader = null;
-            reader =
+            BufferedReader reader =
                     new BufferedReader(new InputStreamReader(System.in));
             try {
                 while (true) {
