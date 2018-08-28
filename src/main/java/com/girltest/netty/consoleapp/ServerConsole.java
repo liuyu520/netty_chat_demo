@@ -3,11 +3,15 @@ package com.girltest.netty.consoleapp;
 import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.enum2.EMessageType;
+import com.girltest.netty.enum2.EServerCmd;
+import com.girltest.netty.handle.console.ConsoleChannelnitializer;
 import com.girltest.netty.handle.console.server.IChannelListener;
 import com.girltest.netty.swing.callback.Callback;
 import com.girltest.netty.util.ChannelSendUtil;
+import com.girltest.netty.util.ServerConfigUtil;
 import com.string.widget.util.ValueWidget;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +21,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ServerConsole {
+    static ServerConsole serverConsole = null;
+    static int port = 8088;
     private static final Logger log = LoggerFactory.getLogger(ServerConsole.class);
     private IChannelListener channelListener;
     public static void main(String[] args) {
-        int port = 8088;
+
         if (args != null && args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
-        ServerConsole serverConsole = new ServerConsole();
+        serverConsole = new ServerConsole();
         //启动socket server服务
         serverConsole.startServerBootstrap(port);
     }
@@ -39,6 +45,11 @@ public class ServerConsole {
 
             @Override
             public void send(String msg) {
+                if (EServerCmd.RE_CONNECT.getDisplayName().equals(msg)) {
+                    reconnect();
+                    return;
+                }
+                System.out.println("channel :" + channel);
                 ChannelSendUtil.writeAndFlush(channel, msg);
             }
 
@@ -49,13 +60,18 @@ public class ServerConsole {
         };
     }
 
+    private void reconnect() {
+        String msg2 = "重新连接";
+        System.out.println("msg2 :" + msg2);
+        serverConsole.startServerBootstrap(port);
+    }
+
     protected void startServerBootstrap(int port) {
         ChannelHandleDto channelHandleDto = new ChannelHandleDto();
         channelHandleDto.setTitle("服务器");
         channelHandleDto.setCallback(new Callback() {
             @Override
             public String callback(String msg, Object ctx, EMessageType type) {
-                print(msg);
                 ChannelHandlerContext channelHandlerContext = (ChannelHandlerContext) ctx;
                 if (null != type) {
                     // 统一在"channelRegistered"中设置Channel 句柄
@@ -67,6 +83,7 @@ public class ServerConsole {
                             channelListener.setCurrentChannel(channelHandlerContext.channel());
                             break;
                         case messageArrivied:
+                            print("收到的 :" + msg);
                             break;
                         case channelUnregistered:
                             channelListener.setCurrentChannel(null);
@@ -84,10 +101,10 @@ public class ServerConsole {
 
         // 3. 启动socket server服务
         //是阻塞的,所以必须放在waitingUserInput() 后面
-        ThreadPoolUtil.execute(() -> {
+//        ThreadPoolUtil.execute(() -> {
             ChannelHandler channelHandler = new ConsoleChannelnitializer(channelHandleDto);
             ServerConfigUtil.serverStartAccept(channelHandler, port);
-        });
+//        });
     }
 
     /**
@@ -128,6 +145,6 @@ public class ServerConsole {
     }
 
     public static void print(String msg) {
-        System.out.println("msg :" + msg);
+        System.out.println(msg);
     }
 }

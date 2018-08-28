@@ -1,9 +1,9 @@
 package com.girltest.netty.swing;
 
+import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.handle.CommonChannelnitializer;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.string.widget.util.ValueWidget;
-import com.swing.dialog.toast.ToastMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -48,10 +48,12 @@ public class ClientApp extends GenericChatFrame {
                     }
                 }
                 System.out.println("开始连接服务器 :");
-                connect();
+                ThreadPoolUtil.execute(() -> {
+                    connect();
+                });
                 connectButton.setEnabled(false);
                 //connectButton 20秒之后,恢复可用状态
-                SwingUtilities.invokeLater(new Runnable() {
+                ThreadPoolUtil.execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
