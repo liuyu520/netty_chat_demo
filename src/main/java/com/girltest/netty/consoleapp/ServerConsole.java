@@ -55,7 +55,7 @@ public class ServerConsole {
                     uploadedFileSavePathDto.setSavedPath(msg.replace(EServerCmd.GET_SAVED_FILE.getDisplayName() + ":", ""));
                 }
 
-                System.out.println("channel :" + channel);
+//                System.out.println("channel :" + channel);
                 ChannelSendUtil.writeAndFlush(channel, msg);
             }
 

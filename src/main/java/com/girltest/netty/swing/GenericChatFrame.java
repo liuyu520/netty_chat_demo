@@ -6,6 +6,7 @@ import com.girltest.netty.dto.message.MessageItem;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.listener.MyMenuBarActionListener;
 import com.girltest.netty.swing.callback.Callback;
+import com.girltest.netty.util.PrintUtil;
 import com.string.widget.util.ValueWidget;
 import com.swing.component.AssistPopupTextArea;
 import com.swing.component.ComponentUtil;
@@ -142,6 +143,11 @@ public abstract class GenericChatFrame extends GenericFrame {
     @Override
     public void layout3(Container contentPane) {
         super.layout3(contentPane);
+        if (null == this.rootPanel) {
+            PrintUtil.print("this.rootPanel is null");
+            dispose();
+            System.exit(0);
+        }
         setContentPane(this.rootPanel);
 //        fullScreen();
         layoutAction(this.rootPanel);
