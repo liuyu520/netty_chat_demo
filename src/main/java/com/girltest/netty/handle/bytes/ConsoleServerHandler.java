@@ -12,23 +12,20 @@ import com.io.hw.file.util.FileUtils;
 import com.string.widget.util.ValueWidget;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessageItem> {
     private static final Logger log = LoggerFactory.getLogger(ConsoleServerHandler.class);
-    @Getter
-    @Setter
     private ChannelHandleDto channelHandleDto;
 
-    public ConsoleServerHandler(ChannelHandleDto channelHandleDto) {
-        this.channelHandleDto = channelHandleDto;
-    }
 
     public Callback getCallback() {
         if (null == channelHandleDto) {
@@ -43,9 +40,11 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      * 如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
      * @param msg
      */
-    private static void saveToFile2(BytesMessageItem msg, UploadedFileSavePathDto uploadedFileSavePathDto) throws IOException {
+    private static void saveToFileThrowException(BytesMessageItem msg, UploadedFileSavePathDto uploadedFileSavePathDto) throws IOException {
         byte[] bytesData = msg.getBinaryDataNoLength();
+        //下面的方法会阻塞,等待用户输入
         String filePath = getInputPath(uploadedFileSavePathDto);
+        //path:xxxcancel 表示取消保存
         if (filePath.endsWith(EServerCmd.GET_SAVED_FILE_CANCEL.getDisplayName())) {
             PrintUtil.print("取消保存");
             return;
@@ -55,18 +54,21 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
 
         // 判断用户输入的文件是否已经存在
         if (new File(filePath).exists()) {
-            filePath = FileUtils.modifyFilePath(filePath, "bak").getAbsolutePath();
-            PrintUtil.print("文件已经存在,所以系统自动更名为:" + filePath);
+            //最终文件名称:/tmp/uploaded/cc32c_bak.jpg
+            File savedFile = FileUtils.modifyFilePath(filePath, "bak");
+            PrintUtil.print("文件已经存在,所以系统自动更名为:" + savedFile);
+            FileUtils.writeBytesToFile(bytesData, savedFile);
+        } else {
+            FileUtils.writeBytesToFile(bytesData, filePath);
         }
 
-            FileUtils.writeBytesToFile(bytesData, filePath);
-            PrintUtil.print("保存成功,文件大小:" + FileUtils.formatFileSize2(bytesData.length));
+        PrintUtil.print("保存成功,文件大小:" + FileUtils.formatFileSize2(bytesData.length));
 
     }
 
     private static void saveToFile(BytesMessageItem msg, UploadedFileSavePathDto uploadedFileSavePathDto) {
         try {
-            saveToFile2(msg, uploadedFileSavePathDto);
+            saveToFileThrowException(msg, uploadedFileSavePathDto);
         } catch (IOException e) {
 //            e.printStackTrace();
             PrintUtil.print(e.getMessage());
@@ -76,12 +78,12 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
 
 
     /***
-     * 阻塞方法
+     * 阻塞方法 ,等待用户输入
      * @param uploadedFileSavePathDto
      * @return
      */
     private static String getInputPath(UploadedFileSavePathDto uploadedFileSavePathDto) {
-        System.out.println("请输入保存路径 :");
+        PrintUtil.print("请输入保存路径 :");
         //死循环,等待用户输入
         while (ValueWidget.isNullOrEmpty(uploadedFileSavePathDto.getSavedPath())) {
             //等待用户输入保存路径
@@ -92,11 +94,11 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BytesMessageItem msg) throws Exception {
-//        System.out.println("msg :" + msg);
+        PrintUtil.print("msg :" + msg);
         byte type = msg.getType();
         switch (type) {
             case BytesMessageItem.TYPE_TRANSFER:
-//                System.out.println(getTitle()+" :TYPE_TRANSFER"+msg.getData());
+//                PrintUtil.print(getTitle()+" :TYPE_TRANSFER"+msg.getData());
                 if (null == getCallback()) {
                     break;
                 }
@@ -104,7 +106,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
                 break;
             case BytesMessageItem.TYPE_DISCONNECT://关闭连接,断开连接
                 dealDisconnect(ctx);
-                System.out.println(getTitle() + "断开连接 :");
+                PrintUtil.print(getTitle() + "断开连接 :");
                 break;
             case BytesMessageItem.TYPE_EXIT_SERVER://关闭连接,断开连接,退出java应用程序
                 dealDisconnect(ctx);
@@ -122,7 +124,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
 
         /*ByteBuf byteBuf = (ByteBuf) msg;
         String mseg = readString(byteBuf);*/
-//        System.out.println("收到的消息 :" + msg);
+//        PrintUtil.print("收到的消息 :" + msg);
     }
 
     /***
@@ -159,7 +161,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
     //通道注册成功
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getTitle() + "channel register...");
+        PrintUtil.print(getTitle() + "channel register...");
         if (null != getCallback()) {
             //服务器端需要清空链接
             getCallback().callback(null, ctx, EMessageType.channelRegistered);
@@ -174,7 +176,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      */
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getTitle() + "handler added..." + ctx.channel());
+        PrintUtil.print(getTitle() + "handler added..." + ctx.channel());
         if (null != getCallback()) {
             getCallback().callback(null, ctx, EMessageType.handlerAdded);
         }
@@ -186,7 +188,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getTitle() + "channel active..." + ctx.channel());
+        PrintUtil.print(getTitle() + "channel active..." + ctx.channel());
         super.channelActive(ctx);
         if (null != getCallback()) {
             getCallback().callback(null, ctx, EMessageType.channelActive);
@@ -202,7 +204,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getTitle() + "channel inactive...");
+        PrintUtil.print(getTitle() + "channel inactive...");
         super.channelInactive(ctx);
     }
 
@@ -216,7 +218,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
     //通道取消注册
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getTitle() + "channel unregister...");
+        PrintUtil.print(getTitle() + "channel unregister...");
         if (null != getCallback() && "服务器端".equals(getTitle())) {
             //服务器端需要清空链接
             getCallback().callback(null, ctx, EMessageType.channelUnregistered);
