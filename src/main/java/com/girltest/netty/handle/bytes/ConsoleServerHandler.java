@@ -39,7 +39,6 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BytesMessageItem msg) throws Exception {
-        PrintUtil.print("msg :" + msg);
         byte type = msg.getType();
         switch (type) {
             case BytesMessageItem.TYPE_TRANSFER:

@@ -35,7 +35,7 @@ public class BytesMessageDecoder extends LengthFieldBasedFrameDecoder {
     protected BytesMessageItem decode(ChannelHandlerContext ctx, ByteBuf in2) throws Exception {
         ByteBuf in = (ByteBuf) super.decode(ctx, in2);
         if (in == null) {
-            System.out.println("解码失败 :" + in2);
+//            System.out.println("解码失败 :" + in2);
             return null;
         }
         byte type = in.readByte();//消息类型

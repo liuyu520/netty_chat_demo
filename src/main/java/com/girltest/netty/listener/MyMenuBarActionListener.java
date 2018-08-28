@@ -1,9 +1,11 @@
 package com.girltest.netty.listener;
 
+import com.girltest.netty.config.ClientConfigDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.dto.message.MessageItem;
 import com.girltest.netty.swing.GenericChatFrame;
 import com.girltest.netty.util.ChannelSendUtil;
+import com.girltest.netty.util.PrintUtil;
 import com.io.hw.file.util.FileUtils;
 import com.string.widget.util.ValueWidget;
 import com.swing.dialog.DialogUtil;
@@ -17,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +27,10 @@ public class MyMenuBarActionListener implements ActionListener {
     private static final Logger log = LoggerFactory.getLogger(MyMenuBarActionListener.class);
     private GenericChatFrame chatFrame;
     protected Channel channel;
+    /***
+     *  TODO shiyong配置文件
+     */
+    private ClientConfigDto configDto = new ClientConfigDto();
 
     public MyMenuBarActionListener(GenericChatFrame chatFrame) {
         this.chatFrame = chatFrame;
@@ -32,7 +39,7 @@ public class MyMenuBarActionListener implements ActionListener {
     private static void closeChannel(GenericChatFrame chatFrame) {
         if (chatFrame.getChannel() == null) {
             String msg = "您还没有连接";
-            System.out.println("msg :" + msg);
+            PrintUtil.print("msg :" + msg);
             log.error(msg);
             ToastMessage.toast(msg, 1000, Color.RED);
             return;
@@ -89,7 +96,26 @@ public class MyMenuBarActionListener implements ActionListener {
             ToastMessage.toast("取消上传", 1000, Color.RED);
             return;
         }
-        System.out.println(" :" + toUploadFile);
+        PrintUtil.print(" :" + toUploadFile);
+
+        if (!toUploadFile.exists()) {
+            if (configDto.isForceIntegryFileSuffix()) {
+                PrintUtil.print("文件不存在,请确认路径:" + toUploadFile);
+                return;
+            }
+            String path = toUploadFile.getAbsolutePath();
+            //"/Users/whuanghkl/a11.txt.jpg"->"/Users/whuanghkl/a11.txt"
+            path = path.replaceAll("\\.[^.]+$", "");
+            toUploadFile = new File(path);
+        }
+        int sizeMb = 100;
+        if (FileUtils.getFileSize2(toUploadFile) > sizeMb * 1024 * 1024) {
+            int result = JOptionPane.showConfirmDialog(null, "文件超过 100 MB,是否确认上传大文件 ?", "确认",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result != JOptionPane.OK_OPTION) {
+                return;
+            }
+        }
         byte[] bytes = null;
         try {
             bytes = FileUtils.getBytes4File(toUploadFile);
