@@ -54,6 +54,7 @@ public class ConsoleServerHandler extends SimpleChannelInboundHandler<BytesMessa
                 break;
             case BytesMessageItem.TYPE_EXIT_SERVER://关闭连接,断开连接,退出java应用程序
                 dealDisconnect(ctx);
+                //服务器退出
                 System.exit(0);
                 break;
             case BytesMessageItem.TYPE_TRANSFER_TLV:

@@ -51,6 +51,12 @@ public class ServerConsole {
                 if (EServerCmd.RE_CONNECT.getDisplayName().equals(msg)) {
                     reconnect();
                     return;
+                } else if (EServerCmd.SERVER_EXIT.getDisplayName().equals(msg)) {
+                    if (null != channel) {
+                        channel.closeFuture();
+                    }
+                    PrintUtil.print("服务器退出.");
+                    System.exit(0);
                 } else if (msg.startsWith(EServerCmd.GET_SAVED_FILE.getDisplayName())) {
                     uploadedFileSavePathDto.setSavedPath(msg.replace(EServerCmd.GET_SAVED_FILE.getDisplayName() + ":", ""));
                 }
