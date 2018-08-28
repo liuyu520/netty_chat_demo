@@ -72,7 +72,7 @@ public class BytesMessageEncoder extends MessageToByteEncoder<BytesMessageItem> 
         long lengthTotal = bytes.length + dealExtraData(s, byteBuf, false);
         byteBuf.writeLong(lengthTotal + 8/*byteBuf.writeInt(bytes.length)*/);// 除总长度字段外的所有数据的字节长度
         byteBuf.writeLong(bytes.length);// 下一个数据块的字节长度
-        System.out.println("BytesMessageEncoder :" + bytes.length);
+//        System.out.println("BytesMessageEncoder :" + bytes.length);
         byteBuf.writeBytes(bytes);
         dealExtraData(s, byteBuf, true);
     }
