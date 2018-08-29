@@ -12,6 +12,8 @@ import com.girltest.netty.swing.callback.Callback;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
 import com.girltest.netty.util.ServerConfigUtil;
+import com.io.hw.file.util.FileUtils;
+import com.string.widget.util.ValueWidget;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -19,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class ServerConsole {
@@ -71,6 +74,13 @@ public class ServerConsole {
                         e.printStackTrace();
                     }
                     PrintUtil.print("解码之后 :" + msg);
+                } else if (msg.startsWith(EServerCmd.READ_FILE_TEXT.getDisplayName())) {
+                    String path = getMsgArg(EServerCmd.READ_FILE_TEXT, msg);
+                    String content = readFileContent(path);
+                    if (!ValueWidget.isNullOrEmpty(content)) {
+                        ChannelSendUtil.writeAndFlush(channel, content);
+                        return;
+                    }
                 }
 
 //                PrintUtil.print("channel :" + channel);
@@ -82,6 +92,16 @@ public class ServerConsole {
                 this.channel = currentChannel;
             }
         };
+    }
+
+    private String readFileContent(String path) {
+        String content = null;
+        try {
+            content = FileUtils.getFullContent2(new File(path), SystemHWUtil.CHARSET_UTF);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 
     private String getMsgArg(EServerCmd serverCmd, String msg) {

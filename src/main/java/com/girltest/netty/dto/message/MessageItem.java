@@ -4,7 +4,7 @@ package com.girltest.netty.dto.message;
  * 消息单元
  */
 public class MessageItem {
-    public static final byte TYPE_HEARTBEAT = 0x07;
+
 
     public static final byte TYPE_AUTH = 0x01;
 
@@ -17,6 +17,7 @@ public class MessageItem {
     public static final byte TYPE_TRANSFER = 0x05;
 
     public static final byte TYPE_WRITE_CONTROL = 0x06;
+    public static final byte TYPE_HEARTBEAT = 0x07;
     /***
      * 传递复杂数据
      */

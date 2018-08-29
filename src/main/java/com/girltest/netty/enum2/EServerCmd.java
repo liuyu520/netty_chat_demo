@@ -14,7 +14,8 @@ public enum EServerCmd implements IEnum {
     TO_UPLOAD_FILE(5, "upload"),
     SERVER_EXIT(6, "exit"),
     DATA_FORMAT_BASE64(8, "base64"),
-    DATA_FORMAT_HEX(10, "hex");
+    DATA_FORMAT_HEX(10, "hex"),
+    READ_FILE_TEXT(12, "read");
     private Integer code;
 
     private String displayName;
