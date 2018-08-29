@@ -32,7 +32,7 @@ public class ConfigReadUtil {
         return clientConfigDto;
     }
 
-    public static <T> Object convert(Properties properties, T configObject) {
+    public static <T> Object convert(final Properties properties, T configObject) {
         if (null == properties) {
             return null;
         }
@@ -47,7 +47,13 @@ public class ConfigReadUtil {
             String fieldType = f.getType().getTypeName();
             String fieldName = f.getName();
             System.out.println("fieldType :" + fieldType);
+            if (!properties.containsKey(fieldName)) {
+                return;
+            }
             String val = properties.getProperty(fieldName);
+            if (ValueWidget.isNullOrEmpty(val)) {
+                return;
+            }
             if ("java.lang.String".equals(fieldType)) {
                 ReflectHWUtils.setObjectValue(configObject, f, val);
             } else if ("int".equals(fieldType)

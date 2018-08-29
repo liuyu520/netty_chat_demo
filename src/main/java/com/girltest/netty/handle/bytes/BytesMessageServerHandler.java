@@ -26,10 +26,11 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     //    private Callback callback;
 //    private String title;
     private ChannelHandleDto channelHandleDto;
-    private ClientConfigDto clientConfigDto = new ClientConfigDto();
+    private ClientConfigDto clientConfigDto;
 
     public BytesMessageServerHandler(ChannelHandleDto channelHandleDto) {
         this.channelHandleDto = channelHandleDto;
+        this.clientConfigDto = this.channelHandleDto.getClientConfigDto();
     }
 
     public Callback getCallback() {

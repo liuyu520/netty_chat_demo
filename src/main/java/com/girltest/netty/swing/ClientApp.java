@@ -1,10 +1,12 @@
 package com.girltest.netty.swing;
 
 import com.common.thread.ThreadPoolUtil;
+import com.girltest.netty.config.ClientConfigDto;
 import com.girltest.netty.dto.connect.ConnectParam;
 import com.girltest.netty.handle.CommonChannelnitializer;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
+import com.girltest.netty.util.config.ConfigReadUtil;
 import com.string.widget.util.ValueWidget;
 import com.swing.dialog.GenericFrame;
 import com.swing.dialog.toast.ToastMessage;
@@ -13,6 +15,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +46,14 @@ public class ClientApp extends GenericChatFrame {
         PrintUtil.print("init33");
 
         channelHandleDto.setTitle(getTitle());
+
+        try {
+            ClientConfigDto clientConfigDto = ConfigReadUtil.readConfig("/Users/whuanghkl/code/mygit/netty/netty_chat_demo_github/src/main/resource/config.properties");
+            PrintUtil.print(clientConfigDto);
+            this.channelHandleDto.setClientConfigDto(clientConfigDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -127,7 +138,8 @@ public class ClientApp extends GenericChatFrame {
             }
         }*/new CommonChannelnitializer(channelHandleDto));
 
-        bootstrap.connect(this.connectParam.getSocketIp(), this.connectParam.getPort())//客户端尝试连接服务器
+        bootstrap.connect(this.connectParam.getSocketIp()
+                , ObjectUtils.firstNonNull(this.channelHandleDto.getClientConfigDto().getPort(), this.connectParam.getPort()))//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture future) {//连接成功
