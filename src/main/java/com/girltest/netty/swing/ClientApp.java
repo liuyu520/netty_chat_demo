@@ -1,9 +1,12 @@
 package com.girltest.netty.swing;
 
 import com.common.thread.ThreadPoolUtil;
+import com.girltest.netty.dto.connect.ConnectParam;
 import com.girltest.netty.handle.CommonChannelnitializer;
 import com.girltest.netty.util.ChannelSendUtil;
+import com.girltest.netty.util.PrintUtil;
 import com.string.widget.util.ValueWidget;
+import com.swing.dialog.GenericFrame;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -24,7 +27,19 @@ import java.io.IOException;
  * 快捷键:Alt+Enter:触发"Enter键发送"复选框的选中和取消选中(toggle)
  */
 public class ClientApp extends GenericChatFrame {
+    private ConnectParam connectParam;
 
+    /***
+     * 必须被主动调用
+     * @param frame
+     */
+    @Override
+    public void init33(GenericFrame frame) {
+        super.init33(frame);
+        this.connectParam = new ConnectParam();
+        this.connectParam.setPort(port);
+        PrintUtil.print("init33");
+    }
 
     @Override
     protected void layoutAction(JPanel rootPanel) {
@@ -108,7 +123,7 @@ public class ClientApp extends GenericChatFrame {
             }
         }*/new CommonChannelnitializer(callback, getTitle()));
 
-        bootstrap.connect("localhost", port)//客户端尝试连接服务器
+        bootstrap.connect(this.connectParam.getSocketIp(), this.connectParam.getPort())//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture future) {//连接成功
@@ -126,4 +141,5 @@ public class ClientApp extends GenericChatFrame {
 
                 });
     }
+
 }
