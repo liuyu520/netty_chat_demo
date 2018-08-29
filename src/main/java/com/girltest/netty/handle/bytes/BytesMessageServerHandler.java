@@ -2,6 +2,7 @@ package com.girltest.netty.handle.bytes;
 
 import com.common.bean.DialogBean;
 import com.common.util.SystemHWUtil;
+import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.swing.callback.Callback;
@@ -21,21 +22,21 @@ import java.io.IOException;
 
 public class BytesMessageServerHandler extends SimpleChannelInboundHandler<BytesMessageItem> {
     private static final Logger log = LoggerFactory.getLogger(BytesMessageServerHandler.class);
-    private Callback callback;
-    private String title;
+    //    private Callback callback;
+//    private String title;
+    private ChannelHandleDto channelHandleDto;
 
-    public BytesMessageServerHandler(Callback callback, String title) {
-        this.callback = callback;
-        this.title = title;
+    public BytesMessageServerHandler(ChannelHandleDto channelHandleDto) {
+        this.channelHandleDto = channelHandleDto;
     }
 
     public Callback getCallback() {
-        return callback;
+        if (null == this.channelHandleDto) {
+            return null;
+        }
+        return this.channelHandleDto.getCallback();
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
 
     /***
      * 保存字节数组到本地文件 <br />
@@ -64,10 +65,10 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
         switch (type) {
             case BytesMessageItem.TYPE_TRANSFER:
 //                System.out.println(getTitle()+" :TYPE_TRANSFER"+msg.getData());
-                if (null == callback) {
+                if (null == getCallback()) {
                     break;
                 }
-                callback.callback(new String(msg.getBinaryDataNoLength(), SystemHWUtil.CHARSET_UTF), ctx, EMessageType.messageArrivied);
+                getCallback().callback(new String(msg.getBinaryDataNoLength(), SystemHWUtil.CHARSET_UTF), ctx, EMessageType.messageArrivied);
                 break;
             case BytesMessageItem.TYPE_DISCONNECT://关闭连接,断开连接
                 dealDisconnect(ctx);
@@ -119,8 +120,8 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
 
     private void dealDisconnect(ChannelHandlerContext ctx) {
         ctx.channel().close();
-        if (null != callback) {
-            callback.callback(null, ctx, EMessageType.TYPE_DISCONNECT);
+        if (null != getCallback()) {
+            getCallback().callback(null, ctx, EMessageType.TYPE_DISCONNECT);
         }
     }
 
@@ -135,9 +136,9 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println(getTitle() + "channel register...");
-        if (null != callback) {
+        if (null != getCallback()) {
             //服务器端需要清空链接
-            callback.callback(null, ctx, EMessageType.channelRegistered);
+            getCallback().callback(null, ctx, EMessageType.channelRegistered);
         }
         super.channelRegistered(ctx);
     }
@@ -150,8 +151,8 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         System.out.println(getTitle() + "handler added..." + ctx.channel());
-        if (null != callback) {
-            callback.callback(null, ctx, EMessageType.handlerAdded);
+        if (null != getCallback()) {
+            getCallback().callback(null, ctx, EMessageType.handlerAdded);
         }
         super.handlerAdded(ctx);
     }
@@ -163,8 +164,8 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println(getTitle() + "channel active..." + ctx.channel());
         super.channelActive(ctx);
-        if (null != callback) {
-            callback.callback(null, ctx, EMessageType.channelActive);
+        if (null != getCallback()) {
+            getCallback().callback(null, ctx, EMessageType.channelActive);
         }
     }
 
@@ -193,14 +194,17 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println(getTitle() + "channel unregister...");
         ToastMessage.toast("断开连接", 2000, Color.RED);
-        if (null != callback && "服务器端".equals(getTitle())) {
+        if (null != getCallback() && "服务器端".equals(getTitle())) {
             //服务器端需要清空链接
-            callback.callback(null, ctx, EMessageType.channelUnregistered);
+            getCallback().callback(null, ctx, EMessageType.channelUnregistered);
         }
         super.channelUnregistered(ctx);
     }
 
     public String getTitle() {
-        return title;
+        if (null == this.channelHandleDto) {
+            return null;
+        }
+        return this.channelHandleDto.getTitle();
     }
 }

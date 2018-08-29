@@ -44,6 +44,7 @@ public class ServerApp extends GenericChatFrame {
             }
         });
         //4.
+        channelHandleDto.setTitle(getTitle());
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ServerApp extends GenericChatFrame {
     }
 
     protected void startServerBootstrap() {
-        ChannelHandler channelHandler = new CommonChannelnitializer(callback, getTitle());
+        ChannelHandler channelHandler = new CommonChannelnitializer(channelHandleDto);
         ServerConfigUtil.serverStartAccept(channelHandler, port);
     }
 

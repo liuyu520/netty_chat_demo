@@ -1,6 +1,7 @@
 package com.girltest.netty.swing;
 
 import com.common.util.SystemHWUtil;
+import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.dto.message.MessageItem;
 import com.girltest.netty.enum2.EMessageType;
@@ -83,7 +84,7 @@ public abstract class GenericChatFrame extends GenericFrame {
             return null;
         }
     };
-
+    protected ChannelHandleDto channelHandleDto = new ChannelHandleDto(callback);
     private void showReceivedMsg(String msg) {
         SwingUtilities.invokeLater(() -> {
             ComponentUtil.appendResult(chatHistoryTa, msg, true);

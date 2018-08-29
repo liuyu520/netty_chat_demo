@@ -41,6 +41,8 @@ public class ClientApp extends GenericChatFrame {
         this.connectParam = new ConnectParam();
         this.connectParam.setPort(port);
         PrintUtil.print("init33");
+
+        channelHandleDto.setTitle(getTitle());
     }
 
     @Override
@@ -123,7 +125,7 @@ public class ClientApp extends GenericChatFrame {
                 });
 
             }
-        }*/new CommonChannelnitializer(callback, getTitle()));
+        }*/new CommonChannelnitializer(channelHandleDto));
 
         bootstrap.connect(this.connectParam.getSocketIp(), this.connectParam.getPort())//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
