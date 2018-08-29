@@ -6,7 +6,7 @@ import com.girltest.netty.dto.connect.ConnectParam;
 import com.girltest.netty.handle.CommonChannelnitializer;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
-import com.girltest.netty.util.config.ConfigReadUtil;
+import com.file.hw.props.ConfigReadUtil;
 import com.string.widget.util.ValueWidget;
 import com.swing.dialog.GenericFrame;
 import com.swing.dialog.toast.ToastMessage;
@@ -48,7 +48,7 @@ public class ClientApp extends GenericChatFrame {
         channelHandleDto.setTitle(getTitle());
 
         try {
-            ClientConfigDto clientConfigDto = ConfigReadUtil.readConfig("/Users/whuanghkl/code/mygit/netty/netty_chat_demo_github/src/main/resource/config.properties");
+            ClientConfigDto clientConfigDto = ConfigReadUtil.readConfig("/Users/whuanghkl/code/mygit/netty/netty_chat_demo_github/src/main/resource/config.properties", ClientConfigDto.class);
             PrintUtil.print(clientConfigDto);
             this.channelHandleDto.setClientConfigDto(clientConfigDto);
         } catch (IOException e) {
