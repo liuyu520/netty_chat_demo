@@ -7,6 +7,7 @@ import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
 import com.string.widget.util.ValueWidget;
 import com.swing.dialog.GenericFrame;
+import com.swing.dialog.toast.ToastMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -14,6 +15,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -142,4 +144,27 @@ public class ClientApp extends GenericChatFrame {
                 });
     }
 
+    /***
+     * 添加菜单
+     * @param menu
+     */
+    @Override
+    protected void appendMenu(JMenu menu) {
+        super.appendMenu(menu);
+        JMenuItem demoM = new JMenuItem("修改端口");
+        menu.add(demoM);
+        demoM.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String portInput = JOptionPane.showInputDialog("请输入端口号", "8080");
+                if (ValueWidget.isNullOrEmpty(portInput)
+                        || (!ValueWidget.isNumeric(portInput))) {
+                    ToastMessage.toast("端口号不合法", 1000, Color.RED);
+                    return;
+                }
+//                GUIUtil23.infoDialog(portInput);
+                connectParam.setPort(Integer.parseInt(portInput));
+            }
+        });
+    }
 }

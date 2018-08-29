@@ -95,8 +95,13 @@ public abstract class GenericChatFrame extends GenericFrame {
         GenericChatFrame.this.requestFocus();
     }
 
+    //需要子类覆写
+    protected void appendMenu(JMenu menu) {
+    }
+
     /***
-     * 菜单
+     * 菜单 <br />
+     * TODO 使用map ,写活
      */
     private void setMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -116,6 +121,8 @@ public abstract class GenericChatFrame extends GenericFrame {
         fileM.add(closeM);
         fileM.add(closeAndShutdownM);
         fileM.add(uploadFileM);
+
+        appendMenu(fileM);
         menuBar.add(fileM);
         setJMenuBar(menuBar);
     }
@@ -126,6 +133,7 @@ public abstract class GenericChatFrame extends GenericFrame {
      */
     public GenericChatFrame() {
         super();
+        init33(this);
         launchFrame();//用于启动界面
     }
 
