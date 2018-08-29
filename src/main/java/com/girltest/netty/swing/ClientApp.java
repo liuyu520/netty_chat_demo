@@ -136,7 +136,7 @@ public class ClientApp extends GenericChatFrame {
 
             }
         }*/new CommonChannelnitializer(channelHandleDto));
-        int port2 = ObjectUtils.firstNonNull(this.channelHandleDto.getClientConfigDto().getPort(), this.connectParam.getPort());
+        Integer port2 = getCurrentPort();
         PrintUtil.print("Client will connect to port:" + port2);
         bootstrap.connect(this.connectParam.getSocketIp(), port2)//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
@@ -157,6 +157,10 @@ public class ClientApp extends GenericChatFrame {
                 });
     }
 
+    private Integer getCurrentPort() {
+        return ObjectUtils.firstNonNull(this.channelHandleDto.getClientConfigDto().getPort(), this.connectParam.getPort());
+    }
+
     /***
      * 添加菜单
      * @param menu
@@ -169,7 +173,8 @@ public class ClientApp extends GenericChatFrame {
         demoM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String portInput = JOptionPane.showInputDialog("请输入端口号", String.valueOf(channelHandleDto.getClientConfigDto().getPort()));
+                Integer port2 = getCurrentPort();
+                String portInput = JOptionPane.showInputDialog("请输入端口号", port2 == null ? "" : String.valueOf(port2));
                 if (ValueWidget.isNullOrEmpty(portInput)
                         || (!ValueWidget.isNumeric(portInput))) {
                     ToastMessage.toast("端口号为空或 不合法", 1000, Color.RED);
