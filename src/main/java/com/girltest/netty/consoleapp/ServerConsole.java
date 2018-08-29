@@ -1,5 +1,6 @@
 package com.girltest.netty.consoleapp;
 
+import com.common.util.SystemHWUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.upload.UploadedFileSavePathDto;
 import com.girltest.netty.enum2.EMessageType;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 public class ServerConsole {
     static ServerConsole serverConsole = null;
@@ -55,14 +57,23 @@ public class ServerConsole {
                     }
                     PrintUtil.print("服务器退出.");
                     System.exit(0);
-                } else if (msg.startsWith(EServerCmd.GET_SAVED_FILE.getDisplayName())) {
-                    uploadedFileSavePathDto.setSavedPath(msg.replace(EServerCmd.GET_SAVED_FILE.getDisplayName() + ":", ""));
-                } else if (msg.startsWith(EServerCmd.TO_UPLOAD_FILE.getDisplayName())) {
-                    uploadFileFromServer(channel, msg.replace(EServerCmd.TO_UPLOAD_FILE.getDisplayName() + ":", ""));
                     return;
+                } else if (msg.startsWith(EServerCmd.GET_SAVED_FILE.getDisplayName())) {
+                    uploadedFileSavePathDto.setSavedPath(getMsgArg(EServerCmd.GET_SAVED_FILE, msg));
+                } else if (msg.startsWith(EServerCmd.TO_UPLOAD_FILE.getDisplayName())) {
+                    uploadFileFromServer(channel, getMsgArg(EServerCmd.TO_UPLOAD_FILE, msg));
+                    return;
+                } else if (msg.startsWith(EServerCmd.DATA_FORMAT_BASE64.getDisplayName())) {
+                    String base64 = getMsgArg(EServerCmd.DATA_FORMAT_BASE64, msg);
+                    try {
+                        msg = new String(SystemHWUtil.decodeBase64(base64), SystemHWUtil.CHARSET_UTF);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    PrintUtil.print("解码之后 :" + msg);
                 }
 
-//                System.out.println("channel :" + channel);
+//                PrintUtil.print("channel :" + channel);
                 ChannelSendUtil.writeAndFlush(channel, msg);
             }
 
@@ -71,6 +82,10 @@ public class ServerConsole {
                 this.channel = currentChannel;
             }
         };
+    }
+
+    private String getMsgArg(EServerCmd serverCmd, String msg) {
+        return msg.replace(serverCmd.getDisplayName() + ":", "");
     }
 
     /***
@@ -89,7 +104,7 @@ public class ServerConsole {
 
     private void reconnect() {
         String msg2 = "重新连接";
-        System.out.println("msg2 :" + msg2);
+        PrintUtil.print("msg2 :" + msg2);
         serverConsole.startServerBootstrap(port);
     }
 
@@ -97,6 +112,8 @@ public class ServerConsole {
         ChannelHandleDto channelHandleDto = new ChannelHandleDto();
         channelHandleDto.setTitle("服务器");
         channelHandleDto.setUploadedFileSavePathDto(uploadedFileSavePathDto);
+
+        //处理收到的消息
         channelHandleDto.setCallback(new Callback() {
             @Override
             public String callback(String msg, Object ctx, EMessageType type) {

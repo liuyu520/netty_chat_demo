@@ -44,8 +44,8 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
      */
     private static void saveToFile(BytesMessageItem msg) {
         byte[] bytesData = msg.getBinaryDataNoLength();
-        String filePath = "/tmp/uploaded/a.jpg";
-        DialogBean dialogBean = DialogUtil.showSaveDialog(null, null, new File(filePath), "jpg");
+        String filePath = "/tmp/uploaded/a.jpg";//TODO
+        DialogBean dialogBean = DialogUtil.showSaveDialog(null, null, new File(filePath), null);
         if (!dialogBean.isSuccess()) {
             ToastMessage.toast("取消操作", 2000);
             return;
