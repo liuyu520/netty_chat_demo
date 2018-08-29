@@ -20,6 +20,20 @@ java -jar netty_chat_demo_github-0.0.1-SNAPSHOT.jar 8089
 
 ![md/2018-08-29_00-46-11.jpg](md/2018-08-29_00-46-11.jpg)
 
+### 命令行参数
+
+|命令|含义|
+| -------- | -------------- |
+|upload:{file path}|上传文件|
+|path:{file path}|保存上传文件到目标路径|
+|cancel|取消保存上传文件|
+|read:{file path}|读取文件的内容作为消息|
+|base64:{字符串}|以base64 的格式来解析|
+|hex:{字符串}|以十进制 的格式来解析|
+|upload:{file path}|上传文件|
+|reconnect|重新链接|
+|exit|断开链接并且彻底退出程序|
+
 
 ## 开发工具
 IntelliJ IDEA
@@ -43,3 +57,4 @@ com/girltest/netty/swing/GenericChatFrame.form 依赖 IntelliJ IDEA
 ## 后续工作
 1. 每链接一个客户端,服务器就新增一个页签
 2. 把写死的地方进行配置化
+
