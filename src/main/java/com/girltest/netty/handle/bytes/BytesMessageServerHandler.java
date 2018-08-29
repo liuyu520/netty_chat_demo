@@ -2,6 +2,7 @@ package com.girltest.netty.handle.bytes;
 
 import com.common.bean.DialogBean;
 import com.common.util.SystemHWUtil;
+import com.girltest.netty.config.ClientConfigDto;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.enum2.EMessageType;
@@ -25,6 +26,7 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
     //    private Callback callback;
 //    private String title;
     private ChannelHandleDto channelHandleDto;
+    private ClientConfigDto clientConfigDto = new ClientConfigDto();
 
     public BytesMessageServerHandler(ChannelHandleDto channelHandleDto) {
         this.channelHandleDto = channelHandleDto;
@@ -43,9 +45,9 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
      * 如果保存失败,请确认 com/girltest/netty/handle/CommonChannelnitializer.java 中 BytesMessageDecoder 第一个参数 maxFrameLength
      * @param msg
      */
-    private static void saveToFile(BytesMessageItem msg) {
+    private static void saveToFile(BytesMessageItem msg, ClientConfigDto clientConfigDto) {
         byte[] bytesData = msg.getBinaryDataNoLength();
-        String filePath = "/tmp/uploaded/a.jpg";//TODO
+        String filePath = clientConfigDto.getDefaultSavedFilePath();// "/tmp/uploaded/a.jpg";
         DialogBean dialogBean = DialogUtil.showSaveDialog(null, null, new File(filePath), null);
         if (!dialogBean.isSuccess()) {
             ToastMessage.toast("取消操作", 2000);
@@ -109,7 +111,7 @@ public class BytesMessageServerHandler extends SimpleChannelInboundHandler<Bytes
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure to save to local file ?", "确认",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    saveToFile(msg);
+                    saveToFile(msg, clientConfigDto);
                 } else {
                     ToastMessage.toast("取消保存", 1000, Color.RED);
                 }
