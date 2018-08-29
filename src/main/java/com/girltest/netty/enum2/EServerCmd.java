@@ -11,6 +11,7 @@ public enum EServerCmd implements IEnum {
     RE_CONNECT(1, "reconnect"),
     GET_SAVED_FILE(2, "path")/* path:/tmp/uploaded/cc32c.jpg */,
     GET_SAVED_FILE_CANCEL(4, "cancel"),
+    TO_UPLOAD_FILE(5, "upload"),
     SERVER_EXIT(6, "exit");
     private Integer code;
 

@@ -2,7 +2,6 @@ package com.girltest.netty.listener;
 
 import com.girltest.netty.config.ClientConfigDto;
 import com.girltest.netty.dto.message.BytesMessageItem;
-import com.girltest.netty.dto.message.MessageItem;
 import com.girltest.netty.swing.GenericChatFrame;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
@@ -20,7 +19,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class MyMenuBarActionListener implements ActionListener {
@@ -116,21 +114,9 @@ public class MyMenuBarActionListener implements ActionListener {
                 return;
             }
         }
-        byte[] bytes = null;
-        try {
-            bytes = FileUtils.getBytes4File(toUploadFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (null != bytes) {
-            BytesMessageItem bytesMessageItem = new BytesMessageItem();
-            bytesMessageItem.setBinaryDataNoLength(bytes);
-            bytesMessageItem.setLength2(bytes.length);
-            bytesMessageItem.setType(MessageItem.TYPE_TRANSFER_TLV);
-            bytesMessageItem.setDataType("pic");
-            ChannelSendUtil.writeAndFlush(chatFrame.getChannel(), bytesMessageItem);
-        }
+        ChannelSendUtil.transferBinaryFile(chatFrame.getChannel(), toUploadFile);
     }
+
 
     private void disconnectAndExit() {
         int result = JOptionPane.showConfirmDialog(null, "Are you sure to 断开并关闭 ?", "确认",

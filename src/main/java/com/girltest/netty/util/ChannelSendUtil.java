@@ -2,8 +2,12 @@ package com.girltest.netty.util;
 
 import com.girltest.netty.dto.message.BytesMessageItem;
 import com.girltest.netty.dto.message.MessageItem;
+import com.io.hw.file.util.FileUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ChannelSendUtil {
     public static ChannelFuture writeAndFlush(Channel channel, Object o) {
@@ -16,4 +20,22 @@ public class ChannelSendUtil {
         }
         return channel.writeAndFlush(o);
     }
+
+    public static void transferBinaryFile(Channel channel, File toUploadFile) {
+        byte[] bytes = null;
+        try {
+            bytes = FileUtils.getBytes4File(toUploadFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (null != bytes) {
+            BytesMessageItem bytesMessageItem = new BytesMessageItem();
+            bytesMessageItem.setBinaryDataNoLength(bytes);
+            bytesMessageItem.setLength2(bytes.length);
+            bytesMessageItem.setType(MessageItem.TYPE_TRANSFER_TLV);
+            bytesMessageItem.setDataType("pic");
+            ChannelSendUtil.writeAndFlush(channel, bytesMessageItem);
+        }
+    }
+
 }

@@ -17,6 +17,8 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 public class ServerConsole {
     static ServerConsole serverConsole = null;
     static int port = 8088;
@@ -55,6 +57,9 @@ public class ServerConsole {
                     System.exit(0);
                 } else if (msg.startsWith(EServerCmd.GET_SAVED_FILE.getDisplayName())) {
                     uploadedFileSavePathDto.setSavedPath(msg.replace(EServerCmd.GET_SAVED_FILE.getDisplayName() + ":", ""));
+                } else if (msg.startsWith(EServerCmd.TO_UPLOAD_FILE.getDisplayName())) {
+                    uploadFileFromServer(channel, msg.replace(EServerCmd.TO_UPLOAD_FILE.getDisplayName() + ":", ""));
+                    return;
                 }
 
 //                System.out.println("channel :" + channel);
@@ -66,6 +71,20 @@ public class ServerConsole {
                 this.channel = currentChannel;
             }
         };
+    }
+
+    /***
+     * 服务器端 上传文件
+     * @param willUploadFilePath
+     */
+    private void uploadFileFromServer(Channel channel, String willUploadFilePath) {
+        File file = new File(willUploadFilePath);
+        if (!file.exists()) {
+//            ToastMessage.toast("文件不存在",1000,Color.RED);
+            PrintUtil.print("文件不存在:" + willUploadFilePath);
+            return;
+        }
+        ChannelSendUtil.transferBinaryFile(channel, file);
     }
 
     private void reconnect() {
