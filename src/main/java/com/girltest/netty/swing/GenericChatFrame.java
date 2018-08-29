@@ -163,6 +163,12 @@ public abstract class GenericChatFrame extends GenericFrame {
         setTitle(getTitle());
     }
 
+    @Override
+    public void init33(GenericFrame frame) {
+        super.init33(frame);
+        channelHandleDto.setTitle(getTitle());
+    }
+
     /***
      * 子类的所有操作都放在layoutAction 中
      * @param rootPanel

@@ -45,7 +45,6 @@ public class ClientApp extends GenericChatFrame {
         this.connectParam.setPort(port);
         PrintUtil.print("init33");
 
-        channelHandleDto.setTitle(getTitle());
 
         try {
             ClientConfigDto clientConfigDto = ConfigReadUtil.readConfig("/Users/whuanghkl/code/mygit/netty/netty_chat_demo_github/src/main/resource/config.properties", ClientConfigDto.class);
@@ -137,9 +136,9 @@ public class ClientApp extends GenericChatFrame {
 
             }
         }*/new CommonChannelnitializer(channelHandleDto));
-
-        bootstrap.connect(this.connectParam.getSocketIp()
-                , ObjectUtils.firstNonNull(this.channelHandleDto.getClientConfigDto().getPort(), this.connectParam.getPort()))//客户端尝试连接服务器
+        int port2 = ObjectUtils.firstNonNull(this.channelHandleDto.getClientConfigDto().getPort(), this.connectParam.getPort());
+        PrintUtil.print("Client will connect to port:" + port2);
+        bootstrap.connect(this.connectParam.getSocketIp(), port2)//客户端尝试连接服务器
                 .addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture future) {//连接成功
@@ -170,14 +169,14 @@ public class ClientApp extends GenericChatFrame {
         demoM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String portInput = JOptionPane.showInputDialog("请输入端口号", "8080");
+                String portInput = JOptionPane.showInputDialog("请输入端口号", String.valueOf(channelHandleDto.getClientConfigDto().getPort()));
                 if (ValueWidget.isNullOrEmpty(portInput)
                         || (!ValueWidget.isNumeric(portInput))) {
-                    ToastMessage.toast("端口号不合法", 1000, Color.RED);
+                    ToastMessage.toast("端口号为空或 不合法", 1000, Color.RED);
                     return;
                 }
 //                GUIUtil23.infoDialog(portInput);
-                connectParam.setPort(Integer.parseInt(portInput));
+                channelHandleDto.getClientConfigDto().setPort(Integer.parseInt(portInput));
             }
         });
     }

@@ -43,8 +43,6 @@ public class ServerApp extends GenericChatFrame {
                 startServerBootstrap();
             }
         });
-        //4.
-        channelHandleDto.setTitle(getTitle());
     }
 
     @Override
