@@ -1,26 +1,21 @@
 package com.girltest.netty.consoleapp;
 
-import com.common.thread.ThreadPoolUtil;
 import com.girltest.netty.dto.ChannelHandleDto;
 import com.girltest.netty.dto.upload.UploadedFileSavePathDto;
 import com.girltest.netty.enum2.EMessageType;
 import com.girltest.netty.enum2.EServerCmd;
 import com.girltest.netty.handle.console.ConsoleChannelnitializer;
 import com.girltest.netty.handle.console.server.IChannelListener;
+import com.girltest.netty.listener.WaitingForUserInputListener;
 import com.girltest.netty.swing.callback.Callback;
 import com.girltest.netty.util.ChannelSendUtil;
 import com.girltest.netty.util.PrintUtil;
 import com.girltest.netty.util.ServerConfigUtil;
-import com.string.widget.util.ValueWidget;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class ServerConsole {
     static ServerConsole serverConsole = null;
@@ -28,6 +23,7 @@ public class ServerConsole {
     private static final Logger log = LoggerFactory.getLogger(ServerConsole.class);
     private IChannelListener channelListener;
     private static UploadedFileSavePathDto uploadedFileSavePathDto = UploadedFileSavePathDto.getInstance();
+    private WaitingForUserInputListener waitingForUserInputListener = new WaitingForUserInputListener();
     public static void main(String[] args) {
 
         if (args != null && args.length > 0) {
@@ -47,7 +43,7 @@ public class ServerConsole {
             protected Channel channel;
 
             @Override
-            public void send(String msg) {
+            public void consoleInputHandle(String msg) {
                 if (EServerCmd.RE_CONNECT.getDisplayName().equals(msg)) {
                     reconnect();
                     return;
@@ -108,9 +104,9 @@ public class ServerConsole {
             }
         });
 
-
         //2. 启动线程,获取命令行用户输入
-        waitingUserInput();
+        waitingForUserInputListener.setChannelListener(channelListener);
+        waitingForUserInputListener.execute();
 
         // 3. 启动socket server服务
         //是阻塞的,所以必须放在waitingUserInput() 后面
@@ -118,43 +114,6 @@ public class ServerConsole {
         ChannelHandler channelHandler = new ConsoleChannelnitializer(channelHandleDto);
         ServerConfigUtil.serverStartAccept(channelHandler, port);
 //        });
-    }
-
-    /**
-     * 等待用户输入
-     */
-    private void waitingUserInput() {
-        ThreadPoolUtil.execute(() -> {
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(System.in));
-            try {
-                while (true) {
-                    // Reading data using readLine
-                    String input = null;
-                    try {
-                        input = reader.readLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    PrintUtil.print("input:" + input);
-                    if (!ValueWidget.isNullOrEmpty(input)) {
-                        channelListener.send(input);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (null != reader) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-        });
     }
 
 
