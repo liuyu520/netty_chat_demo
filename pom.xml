@@ -10,7 +10,7 @@
         <java.version>1.7</java.version>
         <tomcat.version>7.0.26</tomcat.version>
         <struts2.version>2.3.4.1</struts2.version>
-        <spring.version>5.0.2.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
     </properties>
     <dependencies>
 
